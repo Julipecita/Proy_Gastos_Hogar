@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Referencias a elementos del formulario y botones en el DOM.
     const form = document.getElementById("gastosForm");  // Formulario para crear o actualizar una persona.
     //const updateBtn = document.getElementById("updateBtn"); // Botón para actualizar personas.
-    const tableBody = document.querySelector("#gastosTable tbody"); // Cuerpo de la tabla donde se muestran las personas.
+    const tableBody = document.querySelector("#gastosTable tbody"); // Cuerpo de la tabla donde se muestran laos gastos.
 
     // Llama a la función para obtener y mostrar los gastos cuando la página se carga.
     fetchGastos();
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let isEditing = false; // Bandera que indica si el usuario está en modo edición.
     let actualItem = null; // Almacena la cédula de la persona que se está editando.
 
-    // Obtiene la lista de personas de la API.
+    // Obtiene la lista de los gastos de la API.
     function fetchGastos() {
         fetch("/api/obtener")
             .then((response) => response.json())
@@ -64,23 +64,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Función para Agregar un nuevo registro de gasto.
-    function createGasto(gasto) {
+    function createGasto(gastos) {
         fetch("/api/guardar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(gasto),
+            body: JSON.stringify(gastos),
         })
             .then(fetchGastos) // Refresca la lista de gastos después de crear una nueva.
             .catch((error) => console.error("Error creating gasto:", error));
     }
 
-    // Función para editar una persona. Obtiene los datos de una persona usando 
-    //su cédula y los muestra en el formulario.
+    // Función para editar un gasto. Obtiene los datos de un gasto usando 
+    //su itemcédula y los muestra en el formulario.
     window.editGasto = (item) => {
         isEditing = true; // Cambia a modo edición.
         actualItem = item; // Almacena item del gasto que se está editando.
 
-        // Solicita los datos de la persona usando la API.
+        // Solicita los datos del gasto usando la API.
         fetch(`/api/obtener/${item}`)
             .then(() => {
                 const row = Array.from(document.querySelectorAll('#gastosTable tbody tr'))
